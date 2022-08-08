@@ -1,2 +1,2 @@
 # dotfiles
-Various config files
+> Various config files
