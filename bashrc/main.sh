@@ -3,6 +3,8 @@
 DIR=$(dirname "${BASH_SOURCE[0]}")
 
 FILES=(
+    'aliases.sh'
+    'misc.sh'
     'one_password_cli.sh'
     'secrets.sh'
     'virtual_env.sh'
