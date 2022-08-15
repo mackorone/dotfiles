@@ -2,7 +2,7 @@
 
 # Disables tilde(~) expansion
 _expand() {
-  return 0;
+    return 0
 }
 
 # Sets the default editor

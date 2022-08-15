@@ -14,7 +14,7 @@ print_if_nonzero() {
 
 prompt_command() {
     local exit_code="$?"
-    prompt=''
+    local prompt=''
     prompt+="$(print_if_nonzero $exit_code)"
     prompt+="$(show_secrets_are_present)"
     prompt+="$(show_op_session_active)"

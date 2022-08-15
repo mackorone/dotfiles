@@ -32,7 +32,7 @@ secrets() {
 }
 
 show_secrets_are_present() {
-    local output='';
+    local output=''
     if [[ -r "$SECRETS_FILE" ]]; then
         output="$output🔏"
     fi
