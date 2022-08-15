@@ -4,11 +4,13 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 
 FILES=(
     'aliases.sh'
+    'blog.sh'
     'misc.sh'
     'one_password_cli.sh'
     'secrets.sh'
     'virtual_env.sh'
-    # Last to ensure helper functions are defined
+
+    # Last to ensure all helper functions are defined
     'prompt.sh'
 )
 
