@@ -25,10 +25,15 @@ secrets() {
     done
 
     # Concatenate, inject, and write file
-    ( 
-        TOKEN="$(op signin --raw)" && \
+    if (
+        TOKEN="$(op signin --raw)" &&
         cat "$@" | op inject --session "$TOKEN" > "$SECRETS_FILE"
-    ) 
+    ); then
+        # shellcheck source=/dev/null
+        source "$SECRETS_FILE"
+    else
+        return $?
+    fi
 }
 
 show_secrets_are_present() {
