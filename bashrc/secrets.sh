@@ -3,6 +3,11 @@
 SECRETS_FILE='/tmp/my_secrets.sh'
 SECRETS_PREFIX='MY__'
 
+if [[ -z "$SECRETS_TEMPLATES_DIR" ]]; then
+    echo "error: \$SECRETS_TEMPLATES_DIR not defined"
+    return 1
+fi
+
 if [[ -r "$SECRETS_FILE" ]]; then
     # shellcheck source=/dev/null
     source "$SECRETS_FILE"
@@ -16,18 +21,21 @@ secrets() {
     fi
 
     # Ensure all arguments are readable files
+    local paths=()
     for arg in "$@"
     do
-        if [[ ! -r "$arg" ]]; then
-            echo "Unable to read '$arg'"
+        path="$SECRETS_TEMPLATES_DIR/$arg"
+        if [[ ! -r "$path" ]]; then
+            echo "Unable to read '$path'"
             return 1
         fi
+        paths+=( "$path" )
     done
 
     # Concatenate, inject, and write file
     if (
         TOKEN="$(op signin --raw)" &&
-        cat "$@" | op inject --session "$TOKEN" > "$SECRETS_FILE"
+        cat "${paths[@]}" | op inject --session "$TOKEN" > "$SECRETS_FILE"
     ); then
         # shellcheck source=/dev/null
         source "$SECRETS_FILE"
@@ -48,3 +56,12 @@ show_secrets_are_present() {
         echo -n "$output "
     fi
 }
+
+_complete_secrets_command()
+{
+    local chars=${COMP_WORDS[COMP_CWORD]}
+    options=$(ls -1 "$SECRETS_TEMPLATES_DIR")
+    mapfile -t COMPREPLY < <(compgen -W "$options" -- "$chars")
+}
+
+complete -F _complete_secrets_command secrets
