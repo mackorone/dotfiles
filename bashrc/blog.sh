@@ -61,7 +61,7 @@ blog_command() {
             fi
         done
     elif [[ "$command" = "serve" ]]; then
-        (cd "$BLOG_DIR" && bundler exec jekyll serve)
+        (cd "$BLOG_DIR" && bundler exec jekyll serve "$@")
     else
         echo "error: invalid subcommand: '$command'"
         return 1
