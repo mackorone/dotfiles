@@ -60,6 +60,26 @@ blog_command() {
                 touch "$new_path"
             fi
         done
+    elif [[ "$command" = "rename" ]]; then
+        if [[ $# != 2 ]]; then
+            echo "usage: $BLOG_COMMAND rename <SRC> <DST>"
+            return 1
+        fi
+        src=$(_blog_get_post_matches "$1")
+        if [[ -z "$src" ]]; then
+            echo "error: no matches for '$1'"
+            return 1
+        fi
+        if [[ -n $(_blog_get_post_matches "$2") ]]; then
+            echo "error: '$2' already exists"
+            return 1
+        fi
+        dst=$(_blog_get_new_post_path "$2")
+        dir_name=$(dirname "$src")
+        src_date=$(basename "$src" | head -c 10)
+        dst_tail=$(basename "$dst" | cut -c 11-)
+        new_path="${dir_name}/${src_date}${dst_tail}"
+        mv "$src" "$new_path"
     elif [[ "$command" = "serve" ]]; then
         (cd "$BLOG_DIR" && bundler exec jekyll serve "$@")
     else
@@ -93,12 +113,12 @@ _complete_blog_command()
 {
     local chars=${COMP_WORDS[COMP_CWORD]}
     if [[ $COMP_CWORD = 1 ]]; then
-        local options='edit touch serve'
+        local options='edit touch serve rename'
         mapfile -t COMPREPLY < <(compgen -W "$options" -- "$chars")
         return 0
     fi
     local command=${COMP_WORDS[1]}
-    if [[ $command = 'edit' || $command = 'touch' ]]; then
+    if [[ $command = 'edit' || $command = 'touch' || $command = 'rename' ]]; then
         # List the files, strip the date prefix
         options=$(find "$BLOG_DIR/_posts" -printf "%f\n" | cut -c 12-)
         mapfile -t COMPREPLY < <(compgen -W "$options" -- "$chars")
