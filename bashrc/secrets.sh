@@ -33,10 +33,7 @@ secrets() {
     done
 
     # Concatenate, inject, and write file
-    if (
-        TOKEN="$(op signin --raw)" &&
-        cat "${paths[@]}" | op inject --session "$TOKEN" > "$SECRETS_FILE"
-    ); then
+    if cat "${paths[@]}" | op inject > "$SECRETS_FILE"; then
         # shellcheck source=/dev/null
         source "$SECRETS_FILE"
     else

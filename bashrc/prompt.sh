@@ -17,7 +17,6 @@ prompt_command() {
     local prompt=''
     prompt+="$(print_if_nonzero $exit_code)"
     prompt+="$(show_secrets_are_present)"
-    prompt+="$(show_op_session_active)"
     prompt+="$(show_virtual_env)"
     prompt+="${COLOR_TURQUOISE}{\W}\$${COLOR_RESET} "
     export PS1="$prompt"
