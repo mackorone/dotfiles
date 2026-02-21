@@ -8,5 +8,11 @@
     "preferredEditor": "vim",
     "vimMode": true,
     "previewFeatures": true
+  },
+  "tools": {
+    "allowed": [
+      "grep_search",
+      "run_shell_command(agent-cleanup.sh *)"
+    ]
   }
 }
