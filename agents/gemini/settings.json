@@ -12,7 +12,15 @@
   "tools": {
     "allowed": [
       "grep_search",
-      "run_shell_command(agent-cleanup.sh *)"
+      "run_shell_command(agent-cleanup.sh *)",
+      "run_shell_command(pre-commit *)",
+      "run_shell_command(pip-compile *)",
+      "run_shell_command(pip-sync *)",
+      "run_shell_command(ruff *)",
+      "run_shell_command(pyre *)"
     ]
+  },
+  "experimental": {
+    "plan": true
   }
 }
