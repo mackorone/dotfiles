@@ -17,7 +17,8 @@
       "run_shell_command(pip-compile *)",
       "run_shell_command(pip-sync *)",
       "run_shell_command(ruff *)",
-      "run_shell_command(pyre *)"
+      "run_shell_command(pyre *)",
+      "run_shell_command(python -m unittest *)"
     ]
   },
   "experimental": {
